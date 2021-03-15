@@ -7,12 +7,82 @@
 }
 
 :root {
+  font-size: 62.5%; /* 10px */
   --primary-color: black;
-  --primary-color-shade: gray;
+  --primary-color-shade: white;
   --secondary-color: pink;
 }
 
 body {
   font-family: "Lato", Arial, Helvetica, sans-serif;
-  font-size: 62.5%; /* 10px */
+  background-color: var(--primary-color-shade);
+  color: white;
+  font-size: 1.6rem;
+}
+
+.nav {
+  background-color: var(--primary-color);
+  display: grid;
+  /* grid-template-columns: 5rem auto 20rem; */
+  grid-template-columns: 10rem repeat(auto-fit, minmax(20rem, 1fr));
+  grid-auto-rows: 6rem;
+  gap: 1rem;
+}
+.nav > * {
+  background-color: turquoise;
+}
+
+.brand {
+  font-size: 2.4rem;
+  margin-left: 1rem;
+  height: 100%;
+  background-color: red;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.search-form {
+  display: grid;
+  padding-left: 2rem;
+  grid-template-rows: 80%;
+  align-items: center;
+  /* padding: 1rem 2rem; */
+}
+.search-movie-textbox {
+  padding: 1rem 1.5rem;
+  /* margin-top: 2%; */
+}
+
+.movies {
+  margin: 2rem auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(25rem, 1fr));
+  gap: 1rem;
+  justify-content: center;
+}
+
+.movie {
+  position: relative;
+  overflow: hidden;
+}
+
+.movie img {
+  width: 100%;
+}
+
+.movie::after {
+  content: "<h1>fat</h1>";
+  position: absolute;
+  top: 0;
+  left: 100%;
+  right: 0;
+  bottom: 0;
+  background-color: var(--primary-color);
+  transition: all 0.3s ease-in-out;
+  opacity: 0;
+}
+
+.movie:hover:after {
+  left: 0;
+  opacity: 1;
 }
