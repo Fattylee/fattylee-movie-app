@@ -1,0 +1,18 @@
+*,
+*::after,
+*::before {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --primary-color: black;
+  --primary-color-shade: gray;
+  --secondary-color: pink;
+}
+
+body {
+  font-family: "Lato", Arial, Helvetica, sans-serif;
+  font-size: 62.5%; /* 10px */
+}
