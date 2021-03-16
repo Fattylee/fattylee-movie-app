@@ -1,7 +1,8 @@
 import React from "react";
+import { POSTER_PATH } from "../utils/constants";
 
 export const Movie = ({ title, vote_average, poster_path, overview }) => {
-  const imgPath = `https://image.tmdb.org/t/p/w1280${poster_path}`;
+  const imgUrl = `${POSTER_PATH}${poster_path}`;
 
   const setRatingClassName = (vote_average) => {
     if (vote_average >= 8) {
@@ -14,7 +15,7 @@ export const Movie = ({ title, vote_average, poster_path, overview }) => {
 
   return (
     <div className="movie">
-      <img src="/assets/img/placeholder.jpg" alt="alt img" />
+      <img src={imgUrl} alt={title} />
       <div className="caption">
         <h3>{title}</h3>
         <span className={`vote-average ${setRatingClassName(vote_average)}`}>
