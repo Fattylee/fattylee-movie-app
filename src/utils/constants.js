@@ -4,4 +4,4 @@ export const MOST_POPULAR = `https://api.themoviedb.org/3/discover/movie?sort_by
 
 export const POSTER_PATH = "https://image.tmdb.org/t/p/w500";
 
-// "https://api.themoviedb.org/3/search/movie?&api_key=anotherapikey&query=";
+export const SEARCH_MOVIE = `https://api.themoviedb.org/3/search/movie?&api_key=${process.env.REACT_APP_MOVIE_API}&query=`;

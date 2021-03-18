@@ -1,11 +1,11 @@
 import React from "react";
 import { SearchMovie } from "./SearchMovie";
 
-export const Header = () => {
+export const Header = ({ handleSubmit }) => {
   return (
     <nav className="nav">
       <div className="brand">Mreact</div>
-      <SearchMovie />
+      <SearchMovie handleSubmit={handleSubmit} />
     </nav>
   );
 };

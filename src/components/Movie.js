@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import { POSTER_PATH } from "../utils/constants";
 
 export const Movie = ({ title, vote_average, poster_path, overview }) => {
+  const [toggleOverlay, setToggleOverlay] = useState(false);
+
   const imgUrl = `${POSTER_PATH}${poster_path}`;
 
   const setRatingClassName = (vote_average) => {
@@ -15,14 +17,34 @@ export const Movie = ({ title, vote_average, poster_path, overview }) => {
 
   return (
     <div className="movie">
-      <img src={imgUrl} alt={title} />
+      <img
+        src={poster_path ? imgUrl : "/assets/img/placeholder.jpg"}
+        alt={title}
+      />
       <div className="caption">
         <h3>{title}</h3>
         <span className={`vote-average ${setRatingClassName(vote_average)}`}>
           {vote_average}
         </span>
+        <button
+          type="button"
+          className="overview-btn"
+          onClick={(e) => {
+            setToggleOverlay(!toggleOverlay);
+          }}
+        >
+          {toggleOverlay ? "close" : "oveview"}
+        </button>
       </div>
-      <div className="overview-overlay">
+      <div
+        className={`overview-overlay ${
+          window.innerWidth <= 564
+            ? toggleOverlay
+              ? "overview-overlay--toggle"
+              : ""
+            : ""
+        }`}
+      >
         <h3>Overview</h3>
         <p>{overview}</p>
       </div>
