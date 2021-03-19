@@ -1,12 +1,13 @@
-import React, { useState } from "react";
+import React from "react";
 
-export const SearchMovie = ({ handleSubmit }) => {
-  const [movieName, setMovieName] = useState("");
+export const SearchMovie = ({ inputState, handleSubmit }) => {
+  const { setMovieName, movieName } = inputState;
 
   const handleOnSubmit = (e) => {
     e.preventDefault();
+
     if (movieName.trim()) {
-      handleSubmit(movieName, setMovieName);
+      handleSubmit(movieName);
     }
   };
 
