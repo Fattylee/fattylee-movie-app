@@ -37,11 +37,6 @@ export const App = () => {
     localStorage.setItem("fav-movies", JSON.stringify(favourites));
   }, [favourites]);
 
-  // useEffect(() => {
-  //   setmatchedResult([movies.length, movieName, true]);
-  //   setMovieName("");
-  // }, [movies]);
-
   const handleFavourite = (id, favAction) => {
     if (favAction === "add") {
       // add to favourite

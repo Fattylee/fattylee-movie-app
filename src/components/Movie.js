@@ -13,6 +13,8 @@ export const Movie = ({
 }) => {
   const [toggleOverlay, setToggleOverlay] = useState(false);
 
+  const [toggleGlowClass, setToggleGlowClass] = useState(false);
+
   const imgUrl = `${POSTER_PATH}${poster_path}`;
 
   const setRatingClassName = (vote_average) => {
@@ -25,7 +27,17 @@ export const Movie = ({
   };
 
   return (
-    <div className="movie">
+    <div
+      className={toggleGlowClass ? "movie glow" : "movie "}
+      onClick={(e) => {
+        if (e.target.textContent === "+") {
+          setToggleGlowClass((prevState) => !prevState);
+          setTimeout(() => {
+            setToggleGlowClass((prevState) => !prevState);
+          }, 500);
+        }
+      }}
+    >
       <img
         src={poster_path ? imgUrl : "/assets/img/missing-unsplash.jpg"}
         alt={title}

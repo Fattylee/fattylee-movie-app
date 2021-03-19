@@ -73,7 +73,9 @@ body {
   gap: 2rem 1.5rem;
   justify-content: flex-start;
 }
-
+.glow {
+  animation: glow 0.5s linear;
+}
 .movies--scroll.movies {
   padding: 2rem;
   display: flex;
