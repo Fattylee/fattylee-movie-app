@@ -6,6 +6,7 @@ import { MOST_POPULAR, SEARCH_MOVIE } from "./utils/constants";
 export const App = () => {
   const [movies, setMovies] = useState([]);
   const [favourites, setFavourites] = useState([]);
+  const [matchedResult, setmatchedResult] = useState([0, "", false]);
 
   const fetchData = async (url) => {
     try {
@@ -21,6 +22,7 @@ export const App = () => {
 
   useEffect(() => {
     fetchData(MOST_POPULAR);
+
     try {
       const favMovies = JSON.parse(localStorage["fav-movies"]);
       setFavourites(favMovies);
@@ -51,8 +53,10 @@ export const App = () => {
   const handleSubmit = async (movieName, setMovieName) => {
     console.log(movieName);
     await fetchData(SEARCH_MOVIE + movieName);
-    // setMovieName("");
+    setmatchedResult([movies.length, movieName, true]);
+    setMovieName("");
   };
+  console.log(movies);
   return (
     <div>
       <Header handleSubmit={handleSubmit} />
@@ -63,6 +67,7 @@ export const App = () => {
       />
 
       <MovieList
+        matchedResult={matchedResult}
         listType="Featured"
         movies={movies}
         handleFavourite={handleFavourite}

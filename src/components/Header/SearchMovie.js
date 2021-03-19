@@ -5,7 +5,6 @@ export const SearchMovie = ({ handleSubmit }) => {
 
   const handleOnSubmit = (e) => {
     e.preventDefault();
-    console.log(e.target, "onSubmit");
     if (movieName.trim()) {
       handleSubmit(movieName, setMovieName);
     }
