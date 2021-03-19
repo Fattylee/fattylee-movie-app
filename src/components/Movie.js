@@ -27,7 +27,7 @@ export const Movie = ({
   return (
     <div className="movie">
       <img
-        src={poster_path ? imgUrl : "/assets/img/placeholder.jpg"}
+        src={poster_path ? imgUrl : "/assets/img/missing-unsplash.jpg"}
         alt={title}
       />
       <div className="caption">
