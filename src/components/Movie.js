@@ -1,7 +1,16 @@
 import React, { useState } from "react";
 import { POSTER_PATH } from "../utils/constants";
+import { Favourite } from "./Favourite";
 
-export const Movie = ({ title, vote_average, poster_path, overview }) => {
+export const Movie = ({
+  id,
+  title,
+  vote_average,
+  poster_path,
+  overview,
+  listType,
+  handleFavourite,
+}) => {
   const [toggleOverlay, setToggleOverlay] = useState(false);
 
   const imgUrl = `${POSTER_PATH}${poster_path}`;
@@ -36,6 +45,11 @@ export const Movie = ({ title, vote_average, poster_path, overview }) => {
           {toggleOverlay ? "close" : "oveview"}
         </button>
       </div>
+      <Favourite
+        listType={listType}
+        handleFavourite={handleFavourite}
+        id={id}
+      />
       <div
         className={`overview-overlay ${
           window.innerWidth <= 564

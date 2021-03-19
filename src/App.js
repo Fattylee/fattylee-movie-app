@@ -21,7 +21,32 @@ export const App = () => {
 
   useEffect(() => {
     fetchData(MOST_POPULAR);
+    try {
+      const favMovies = JSON.parse(localStorage["fav-movies"]);
+      setFavourites(favMovies);
+    } catch (error) {
+      setFavourites([]);
+    }
   }, []);
+
+  useEffect(() => {
+    localStorage.setItem("fav-movies", JSON.stringify(favourites));
+  }, [favourites]);
+
+  const handleFavourite = (id, favAction) => {
+    if (favAction === "add") {
+      // add to favourite
+      const favMovie = movies.find((movie) => movie?.id === id);
+      // add if not already eist
+      if (!favourites.find((mov) => mov.id === id)) {
+        setFavourites((prevState) => [favMovie, ...prevState]);
+      }
+    } else {
+      // remove from favourite
+      const newFavourites = favourites.filter((favMovie) => favMovie.id !== id);
+      setFavourites(newFavourites);
+    }
+  };
 
   const handleSubmit = async (movieName, setMovieName) => {
     console.log(movieName);
@@ -31,9 +56,17 @@ export const App = () => {
   return (
     <div>
       <Header handleSubmit={handleSubmit} />
-      <MovieList listType="Favourite" movies={movies} />
+      <MovieList
+        listType="Favourite"
+        movies={favourites}
+        handleFavourite={handleFavourite}
+      />
 
-      <MovieList listType="Featured" movies={movies} />
+      <MovieList
+        listType="Featured"
+        movies={movies}
+        handleFavourite={handleFavourite}
+      />
     </div>
   );
 };
