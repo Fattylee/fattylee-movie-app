@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import { POSTER_PATH } from "../utils/constants";
 import { Favourite } from "./Favourite";
 
@@ -38,10 +39,12 @@ export const Movie = ({
         }
       }}
     >
-      <img
-        src={poster_path ? imgUrl : "/assets/img/missing-unsplash.jpg"}
-        alt={title}
-      />
+      <Link to={"/" + id}>
+        <img
+          src={poster_path ? imgUrl : "/assets/img/missing-unsplash.jpg"}
+          alt={title}
+        />
+      </Link>
       <div className="caption">
         <h3>{title}</h3>
         <span className={`vote-average ${setRatingClassName(vote_average)}`}>
@@ -62,7 +65,8 @@ export const Movie = ({
         handleFavourite={handleFavourite}
         id={id}
       />
-      <div
+      <Link
+        to={"/" + id}
         className={`overview-overlay ${
           window.innerWidth <= 564
             ? toggleOverlay
@@ -73,7 +77,7 @@ export const Movie = ({
       >
         <h3>Overview</h3>
         <p>{overview}</p>
-      </div>
+      </Link>
     </div>
   );
 };

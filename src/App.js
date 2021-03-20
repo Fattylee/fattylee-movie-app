@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { Header } from "./components/Header/Header";
 import { MovieList } from "./components/MovieList";
+import { SingleMovie } from "./pages/SingleMovie";
 import { MOST_POPULAR, SEARCH_MOVIE } from "./utils/constants";
 
 export const App = () => {
@@ -60,7 +62,7 @@ export const App = () => {
   };
 
   return (
-    <div>
+    <Router>
       <Header
         inputState={{ setMovieName, movieName }}
         handleSubmit={handleSubmit}
@@ -70,12 +72,24 @@ export const App = () => {
         movies={favourites}
         handleFavourite={handleFavourite}
       />
-      <MovieList
-        matchedResult={matchedResult}
-        listType="Featured"
-        movies={movies}
-        handleFavourite={handleFavourite}
-      />
-    </div>
+      <Switch>
+        <Route
+          exact
+          path="/"
+          component={() => (
+            <MovieList
+              matchedResult={matchedResult}
+              listType="Featured"
+              movies={movies}
+              handleFavourite={handleFavourite}
+            />
+          )}
+        />
+        <Route
+          path="/:movieId"
+          component={() => <SingleMovie handleFavourite={handleFavourite} />}
+        />
+      </Switch>
+    </Router>
   );
 };
