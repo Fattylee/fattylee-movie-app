@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { Movie } from "../components/Movie";
+import { BACKDROP_PATH_SIZE } from "../utils/constants";
 
 export const SingleMovie = ({ listType, handleFavourite }) => {
   const url = `https://api.themoviedb.org/3/movie${window.location.pathname}?api_key=${process.env.REACT_APP_MOVIE_API}`;
+
   const [movie, setMovie] = useState({});
   useEffect(() => {
     const fetchData = async (url) => {
@@ -18,7 +20,9 @@ export const SingleMovie = ({ listType, handleFavourite }) => {
       }
     };
     fetchData(url);
-    return () => {};
+    return () => {
+      setMovie({});
+    };
   }, [url]);
 
   const {
@@ -32,15 +36,26 @@ export const SingleMovie = ({ listType, handleFavourite }) => {
     adult,
     runtime,
   } = movie || {};
+
+  if (!Object.keys(movie).length) {
+    return <div>Loading...</div>;
+  }
+  const getTime = (duration) => {
+    if (!runtime) return "unknown";
+
+    if (duration < 60) {
+      return duration + "m";
+    }
+    return `${(duration / 60) | 0}h ${duration % 60}m`;
+  };
   return (
     <>
-      <div className="single-movie" data-fap="red">
-        <h3>Movie details</h3>
+      <div className="single-movie">
+        <h3 className="single-movie-title">Movie details</h3>
         <div
           className="wrapper"
           style={{
-            backgroundImage:
-              "url(https://www.themoviedb.org/t/p/w1280" + backdrop_path,
+            backgroundImage: `url(${BACKDROP_PATH_SIZE}${backdrop_path})`,
           }}
         >
           <Movie
@@ -59,12 +74,23 @@ export const SingleMovie = ({ listType, handleFavourite }) => {
             <h4 className="overview-heading">Overview</h4>
             <p className="overview-content">{overview}</p>
             <ul>
-              <li>adult pg: {adult}</li>
-              <li>{release_date}</li>
-              <li>{vote_average}</li>
-              <li>{genres?.map((genre) => genre.name)}</li>
-              <li>{runtime}</li>
-              <li>add to favourite</li>
+              <li>Duration: {getTime(runtime)}</li>
+              <li>Released date: {release_date}</li>
+              <li>PG: {adult ? "Yes" : "No"}</li>
+              <li className="rating">{vote_average}</li>
+              <li>
+                Genre:{" "}
+                {genres?.map((genre, index) => (
+                  <span
+                    key={index}
+                    className={`genre ${genre.name
+                      .toLowerCase()
+                      .replace(/\s+/, "-")}`}
+                  >
+                    {genre.name}
+                  </span>
+                ))}
+              </li>
             </ul>
           </div>
         </div>

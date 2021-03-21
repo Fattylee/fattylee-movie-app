@@ -7,7 +7,15 @@ import { MOST_POPULAR, SEARCH_MOVIE } from "./utils/constants";
 
 export const App = () => {
   const [movies, setMovies] = useState([]);
-  const [favourites, setFavourites] = useState([]);
+
+  const [favourites, setFavourites] = useState(() => {
+    let favMovies = [];
+    try {
+      favMovies = JSON.parse(localStorage["fav-movies"]);
+    } catch (error) {}
+    return favMovies;
+  });
+
   const [matchedResult, setmatchedResult] = useState([0, "", false]);
   const [movieName, setMovieName] = useState("");
 
@@ -25,17 +33,12 @@ export const App = () => {
   };
 
   useEffect(() => {
+    console.log("useEffect 1");
     fetchData(MOST_POPULAR);
-
-    try {
-      const favMovies = JSON.parse(localStorage["fav-movies"]);
-      setFavourites(favMovies);
-    } catch (error) {
-      setFavourites([]);
-    }
   }, []);
 
   useEffect(() => {
+    console.log("useEffect 2");
     localStorage.setItem("fav-movies", JSON.stringify(favourites));
   }, [favourites]);
 
@@ -67,22 +70,24 @@ export const App = () => {
         inputState={{ setMovieName, movieName }}
         handleSubmit={handleSubmit}
       />
-      <MovieList
-        listType="Favourite"
-        movies={favourites}
-        handleFavourite={handleFavourite}
-      />
       <Switch>
         <Route
           exact
           path="/"
           component={() => (
-            <MovieList
-              matchedResult={matchedResult}
-              listType="Featured"
-              movies={movies}
-              handleFavourite={handleFavourite}
-            />
+            <>
+              <MovieList
+                listType="Favourite"
+                movies={favourites}
+                handleFavourite={handleFavourite}
+              />
+              <MovieList
+                matchedResult={matchedResult}
+                listType="Featured"
+                movies={movies}
+                handleFavourite={handleFavourite}
+              />
+            </>
           )}
         />
         <Route
