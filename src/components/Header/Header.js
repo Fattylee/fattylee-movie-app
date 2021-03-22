@@ -2,13 +2,20 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { SearchMovie } from "./SearchMovie";
 
-export const Header = ({ inputState, handleSubmit }) => {
+export const Header = ({ inputState, handleSubmit = () => {} }) => {
   return (
     <nav className="nav">
       <Link to="/" className="brand">
         Mreact
       </Link>
-      <SearchMovie handleSubmit={handleSubmit} inputState={inputState} />
+      {!inputState && (
+        <Link className="show-all" to="/">
+          Show all movies
+        </Link>
+      )}
+      {inputState && (
+        <SearchMovie handleSubmit={handleSubmit} inputState={inputState} />
+      )}
     </nav>
   );
 };

@@ -1,9 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { Movie } from "../components/Movie";
 import { BACKDROP_PATH_SIZE } from "../utils/constants";
+import { Header } from "../components/Header/Header";
 
-export const SingleMovie = ({ listType, handleFavourite }) => {
-  const url = `https://api.themoviedb.org/3/movie${window.location.pathname}?api_key=${process.env.REACT_APP_MOVIE_API}`;
+export const SingleMovie = ({
+  match: {
+    params: { movieId },
+  },
+}) => {
+  const url = `https://api.themoviedb.org/3/movie/${movieId}?api_key=${process.env.REACT_APP_MOVIE_API}`;
 
   const [movie, setMovie] = useState({});
   useEffect(() => {
@@ -37,9 +42,6 @@ export const SingleMovie = ({ listType, handleFavourite }) => {
     runtime,
   } = movie || {};
 
-  if (!Object.keys(movie).length) {
-    return <div>Loading...</div>;
-  }
   const getTime = (duration) => {
     if (!runtime) return "unknown";
 
@@ -48,8 +50,13 @@ export const SingleMovie = ({ listType, handleFavourite }) => {
     }
     return `${(duration / 60) | 0}h ${duration % 60}m`;
   };
+
+  if (!Object.keys(movie).length) {
+    return <div>Loading...</div>;
+  }
   return (
     <>
+      <Header />
       <div className="single-movie">
         <h3 className="single-movie-title">Movie details</h3>
         <div
@@ -58,11 +65,7 @@ export const SingleMovie = ({ listType, handleFavourite }) => {
             backgroundImage: `url(${BACKDROP_PATH_SIZE}${backdrop_path})`,
           }}
         >
-          <Movie
-            listType={listType}
-            {...movie}
-            handleFavourite={handleFavourite}
-          />
+          <Movie {...movie} />
           <div className="content">
             <h3 className="title">
               {title}{" "}

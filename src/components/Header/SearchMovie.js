@@ -1,7 +1,7 @@
 import React from "react";
 
 export const SearchMovie = ({ inputState, handleSubmit }) => {
-  const { setMovieName, movieName } = inputState;
+  const { setMovieName = () => {}, movieName = "" } = inputState;
 
   const handleOnSubmit = (e) => {
     e.preventDefault();

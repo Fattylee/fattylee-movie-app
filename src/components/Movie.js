@@ -9,8 +9,8 @@ export const Movie = ({
   vote_average,
   poster_path,
   overview,
-  listType,
-  handleFavourite,
+  listType = null,
+  handleFavourite = null,
 }) => {
   const [toggleOverlay, setToggleOverlay] = useState(false);
 
@@ -60,11 +60,13 @@ export const Movie = ({
           {toggleOverlay ? "close" : "oveview"}
         </button>
       </div>
-      <Favourite
-        listType={listType}
-        handleFavourite={handleFavourite}
-        id={id}
-      />
+      {handleFavourite && (
+        <Favourite
+          listType={listType}
+          handleFavourite={handleFavourite}
+          id={id}
+        />
+      )}
       <Link
         to={"/" + id}
         className={`overview-overlay ${
