@@ -7,6 +7,7 @@ export const fetchData = async (url, setData, setIsLoading, setError) => {
     return json;
   } catch (error) {
     setIsLoading && setIsLoading(false);
+    // !error?.message?.includes("Failed to fetch") &&
     setError && setError(error.message);
     console.log(error, "error");
   }

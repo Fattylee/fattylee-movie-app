@@ -46,15 +46,18 @@ export const Home = (props) => {
   };
 
   const handleSubmit = async (movieName) => {
-    const json = await fetchData(SEARCH_MOVIE + movieName, setMovies);
+    const json = await fetchData(
+      SEARCH_MOVIE + movieName,
+      setMovies,
+      setIsLoading,
+      setError
+    );
 
-    setmatchedResult([json.results.length, movieName, true]);
+    setmatchedResult([json?.results?.length, movieName, true]);
     setMovieName("");
   };
 
   if (isLoading) return <Loader />;
-
-  if (error) return <Error error={error} btnMessage="Try again" {...props} />;
 
   return (
     <>
@@ -67,12 +70,21 @@ export const Home = (props) => {
         movies={favourites}
         handleFavourite={handleFavourite}
       />
-      <MovieList
-        matchedResult={matchedResult}
-        listType="Featured"
-        movies={movies}
-        handleFavourite={handleFavourite}
-      />
+      {error ? (
+        <Error
+          error={error}
+          btnMessage="Try again"
+          {...props}
+          removeMarginTop={true}
+        />
+      ) : (
+        <MovieList
+          matchedResult={matchedResult}
+          listType="Featured"
+          movies={movies}
+          handleFavourite={handleFavourite}
+        />
+      )}
     </>
   );
 };

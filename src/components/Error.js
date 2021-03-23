@@ -1,9 +1,13 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-export const Error = ({ error, btnMessage, history }) => {
+export const Error = ({ error, btnMessage, removeMarginTop }) => {
   return (
-    <div className="error-modal">
+    <div
+      className={`${
+        removeMarginTop ? "error-modal error-modal__rmt" : "error-modal"
+      }`}
+    >
       <h3>Something went wrong</h3>
       <p> {error}</p>
       <Link
