@@ -1,12 +1,13 @@
-export const fetchData = async (url, setData) => {
+export const fetchData = async (url, setData, setIsLoading, setError) => {
   try {
     const res = await fetch(url);
     const json = await res.json();
     setData(json.results);
+    setIsLoading && setIsLoading(false);
     return json;
-    // TOOD: clear loader
   } catch (error) {
-    // TOOD: clear loader
+    setIsLoading && setIsLoading(false);
+    setError && setError(error.message);
     console.log(error, "error");
   }
 };

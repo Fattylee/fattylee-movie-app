@@ -20,29 +20,26 @@ export const SingleMovie = ({
   useEffect(() => {
     document.title = "Movie React App || Details page";
   }, []);
+
   useEffect(() => {
     const fetchData = async (url) => {
       try {
         const res = await fetch(url);
         const json = await res.json();
         setMovie(json);
-        // TOOD: clear loader
         setIsLoading(false);
         return json;
       } catch (error) {
-        // TOOD: clear loader
         setIsLoading(false);
         setError(error.message);
         console.log(error.message, "error");
       }
-      return () => {
-        setError("");
-        setIsLoading(true);
-        setMovie({});
-      };
     };
     fetchData(url);
+
     return () => {
+      setError("");
+      setIsLoading(true);
       setMovie({});
     };
   }, [url]);
@@ -68,7 +65,7 @@ export const SingleMovie = ({
     return `${(duration / 60) | 0}h ${duration % 60}m`;
   };
 
-  if (isLoading) return <Loader size="medium" />;
+  if (isLoading) return <Loader size="small" />;
 
   if (!Object.keys(movie).length) {
     return <Error error={error} />;

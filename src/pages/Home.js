@@ -1,11 +1,15 @@
 import React, { useState, useEffect } from "react";
+import { Error } from "../components/Error";
 import { Header } from "../components/Header/Header";
+import { Loader } from "../components/Loader";
 import { MovieList } from "../components/MovieList";
 import { MOST_POPULAR, SEARCH_MOVIE } from "../utils/constants";
 import { fetchData } from "../utils/helper";
 
-export const Home = () => {
+export const Home = (props) => {
   const [movies, setMovies] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState("");
 
   const [favourites, setFavourites] = useState(() => {
     let favMovies = [];
@@ -19,7 +23,7 @@ export const Home = () => {
   const [movieName, setMovieName] = useState("");
 
   useEffect(() => {
-    fetchData(MOST_POPULAR, setMovies);
+    fetchData(MOST_POPULAR, setMovies, setIsLoading, setError);
   }, []);
 
   useEffect(() => {
@@ -47,6 +51,10 @@ export const Home = () => {
     setmatchedResult([json.results.length, movieName, true]);
     setMovieName("");
   };
+
+  if (isLoading) return <Loader />;
+
+  if (error) return <Error error={error} btnMessage="Try again" {...props} />;
 
   return (
     <>

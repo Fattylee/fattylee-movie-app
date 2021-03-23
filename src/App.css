@@ -420,7 +420,7 @@ a {
 .loader-wrapper {
   --z-value: 100;
 
-  background-color: #ffffffb3;
+  background-color: #402116b3;
   position: fixed;
   top: 0;
   left: 0;
@@ -439,7 +439,6 @@ a {
   display: inline-block;
   border-radius: var(--box);
   position: relative;
-  margin: 20rem;
 }
 .loader::after {
   position: absolute;
@@ -449,7 +448,7 @@ a {
   border-radius: var(--box);
   color: sienna;
   clip-path: polygon(0 0, 100% 0, 100% 50%, 0 50%);
-  animation: rotator 0.6s linear infinite;
+  animation: rotator 0.5s linear infinite;
 }
 @keyframes rotator {
   0% {
@@ -512,6 +511,10 @@ a {
     justify-content: center;
   }
 
+  .movie {
+    margin: auto;
+  }
+
   .overview-btn {
     display: block;
   }
@@ -556,5 +559,15 @@ a {
   .single-movie .rating {
     margin-left: auto;
     margin-right: auto;
+  }
+  .single-movie .overview-btn {
+    display: none;
+  }
+  .single-movie .vote-average {
+    position: static;
+    width: 35px;
+    height: auto;
+    transform: none;
+    border-radius: initial;
   }
 }
