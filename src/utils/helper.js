@@ -10,3 +10,6 @@ export const fetchData = async (url, setData) => {
     console.log(error, "error");
   }
 };
+
+export const slug = (id, title) =>
+  `${id}-${title.replace(/\s+/g, "-").toLowerCase()}`;

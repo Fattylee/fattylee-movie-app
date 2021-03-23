@@ -2,27 +2,44 @@ import React, { useEffect, useState } from "react";
 import { Movie } from "../components/Movie";
 import { BACKDROP_PATH_SIZE } from "../utils/constants";
 import { Header } from "../components/Header/Header";
+import { Loader } from "../components/Loader";
+import { Error } from "../components/Error";
 
 export const SingleMovie = ({
   match: {
     params: { movieId },
   },
 }) => {
-  const url = `https://api.themoviedb.org/3/movie/${movieId}?api_key=${process.env.REACT_APP_MOVIE_API}`;
+  const url = `https://api.themoviedb.org/3/movie/${
+    movieId.split("-")[0]
+  }?api_key=${process.env.REACT_APP_MOVIE_API}`;
 
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState("");
   const [movie, setMovie] = useState({});
+  useEffect(() => {
+    document.title = "Movie React App || Details page";
+  }, []);
   useEffect(() => {
     const fetchData = async (url) => {
       try {
         const res = await fetch(url);
         const json = await res.json();
         setMovie(json);
-        return json;
         // TOOD: clear loader
+        setIsLoading(false);
+        return json;
       } catch (error) {
         // TOOD: clear loader
-        console.log(error, "error");
+        setIsLoading(false);
+        setError(error.message);
+        console.log(error.message, "error");
       }
+      return () => {
+        setError("");
+        setIsLoading(true);
+        setMovie({});
+      };
     };
     fetchData(url);
     return () => {
@@ -51,9 +68,12 @@ export const SingleMovie = ({
     return `${(duration / 60) | 0}h ${duration % 60}m`;
   };
 
+  if (isLoading) return <Loader size="medium" />;
+
   if (!Object.keys(movie).length) {
-    return <div>Loading...</div>;
+    return <Error error={error} />;
   }
+
   return (
     <>
       <Header />

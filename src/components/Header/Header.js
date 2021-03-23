@@ -9,7 +9,7 @@ export const Header = ({ inputState, handleSubmit = () => {} }) => {
         Mreact
       </Link>
       {!inputState && (
-        <Link className="show-all" to="/">
+        <Link className="btn show-all" to="/">
           Show all movies
         </Link>
       )}

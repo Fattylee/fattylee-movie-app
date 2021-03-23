@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { POSTER_PATH } from "../utils/constants";
+import { slug } from "../utils/helper";
 import { Favourite } from "./Favourite";
 
 export const Movie = ({
@@ -39,7 +40,7 @@ export const Movie = ({
         }
       }}
     >
-      <Link to={"/" + id}>
+      <Link to={"/" + slug(id, title)}>
         <img
           src={poster_path ? imgUrl : "/assets/img/missing-unsplash.jpg"}
           alt={title}
@@ -68,7 +69,7 @@ export const Movie = ({
         />
       )}
       <Link
-        to={"/" + id}
+        to={"/" + slug(id, title)}
         className={`overview-overlay ${
           window.innerWidth <= 564
             ? toggleOverlay
