@@ -42,8 +42,9 @@ export const Movie = ({
     >
       <Link to={"/" + slug(id, title)}>
         <img
-          src={poster_path ? imgUrl : "/assets/img/missing-unsplash.jpg"}
+          data-src={poster_path ? imgUrl : "/assets/img/missing-unsplash.jpg"}
           alt={title}
+          className="lazyload"
         />
       </Link>
       <div className="caption">

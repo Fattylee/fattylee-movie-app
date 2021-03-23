@@ -23,6 +23,7 @@ export const SingleMovie = ({
 
   useEffect(() => {
     const fetchData = async (url) => {
+      setIsLoading && setIsLoading(true);
       try {
         const res = await fetch(url);
         const json = await res.json();

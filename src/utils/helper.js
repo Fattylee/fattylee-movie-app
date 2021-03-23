@@ -1,4 +1,5 @@
 export const fetchData = async (url, setData, setIsLoading, setError) => {
+  setIsLoading && setIsLoading(true);
   try {
     const res = await fetch(url);
     const json = await res.json();
