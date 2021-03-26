@@ -398,6 +398,26 @@ a {
   }
 }
 
+.rotor {
+  aspect-ratio: 1;
+  width: 50px;
+  border: 2px solid red;
+  border-bottom-color: white;
+  border-radius: 50%;
+  margin: 10px auto;
+  transform: rotate(45deg);
+  animation: rotor 0.5s infinite linear;
+}
+
+@keyframes rotor {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 @media screen and (max-width: 564px) {
   .movies--scroll.movies {
     gap: 2rem 1.5rem;

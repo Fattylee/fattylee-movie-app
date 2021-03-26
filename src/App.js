@@ -1,12 +1,17 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback, useRef } from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { Child } from "./components/Header/Child";
 import { Header } from "./components/Header/Header";
+import { Hello } from "./components/Header/Hello";
 import { MovieList } from "./components/MovieList";
+import { Something } from "./components/Something";
 import { SingleMovie } from "./pages/SingleMovie";
 import { MOST_POPULAR, SEARCH_MOVIE } from "./utils/constants";
 
 export const App = () => {
+  const boxRef = useRef();
   const [movies, setMovies] = useState([]);
+  const [visible, setVisible] = useState(true);
 
   const [favourites, setFavourites] = useState(() => {
     let favMovies = [];
@@ -42,7 +47,7 @@ export const App = () => {
     localStorage.setItem("fav-movies", JSON.stringify(favourites));
   }, [favourites]);
 
-  const handleFavourite = (id, favAction) => {
+  const unMemoizehandleFavourite = (id, favAction) => {
     if (favAction === "add") {
       // add to favourite
       const favMovie = movies.find((movie) => movie?.id === id);
@@ -57,20 +62,32 @@ export const App = () => {
     }
   };
 
+  const handleFavourite = useCallback(unMemoizehandleFavourite, [
+    movies,
+    favourites,
+  ]);
+
   const handleSubmit = async (movieName) => {
     const json = await fetchData(SEARCH_MOVIE + movieName);
 
     setmatchedResult([json.results.length, movieName, true]);
     setMovieName("");
   };
-
+  const MemoRoute = React.memo(Route);
   return (
     <Router>
       <Header
+        boxRef={boxRef}
         inputState={{ setMovieName, movieName }}
         handleSubmit={handleSubmit}
       />
+      <button onClick={() => setVisible(!visible)}>
+        Toggle Hello Component
+      </button>
+      {visible && <Hello textBoxRef={boxRef} />}
+      {/* <Something /> */}
       <Switch>
+        <MemoRoute exact path="/xyz" component={Child} />
         <Route
           exact
           path="/"
@@ -92,7 +109,19 @@ export const App = () => {
         />
         <Route
           path="/:movieId"
+          exact
           component={() => <SingleMovie handleFavourite={handleFavourite} />}
+        />
+        <Route path="/xyz/:somethiing" component={Something} />
+        <Route
+          component={() => {
+            return (
+              <div>
+                <h3>Not found</h3>
+                <button className="btn show-all">Goto Home</button>
+              </div>
+            );
+          }}
         />
       </Switch>
     </Router>

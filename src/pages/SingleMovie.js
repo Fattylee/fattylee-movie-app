@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { memo, useEffect, useState } from "react";
 import { Movie } from "../components/Movie";
 import { BACKDROP_PATH_SIZE } from "../utils/constants";
 
-export const SingleMovie = ({ listType, handleFavourite }) => {
+const UnMemoizeSingleMovie = ({ listType, handleFavourite }) => {
   const url = `https://api.themoviedb.org/3/movie${window.location.pathname}?api_key=${process.env.REACT_APP_MOVIE_API}`;
 
   const [movie, setMovie] = useState({});
@@ -98,3 +98,4 @@ export const SingleMovie = ({ listType, handleFavourite }) => {
     </>
   );
 };
+export const SingleMovie = memo(UnMemoizeSingleMovie);
