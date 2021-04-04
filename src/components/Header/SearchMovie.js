@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useContext } from "react";
+import { ColorContext } from "../../hooks/ColorContext";
 
 export const SearchMovie = ({ inputState, handleSubmit, boxRef }) => {
   const { setMovieName, movieName } = inputState;
+  const [, setColor] = useContext(ColorContext);
 
   const handleOnSubmit = (e) => {
     e.preventDefault();
@@ -17,6 +19,7 @@ export const SearchMovie = ({ inputState, handleSubmit, boxRef }) => {
         ref={boxRef}
         onChange={(e) => {
           setMovieName(e.target.value);
+          setColor(e.target.value);
         }}
         value={movieName}
         type="text"

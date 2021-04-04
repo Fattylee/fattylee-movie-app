@@ -9,7 +9,7 @@ export const useFetch = (url) => {
   const unmountRef = useRef(false);
 
   useEffect(() => {
-    console.log("mounting ...");
+    // console.log("mounting ...");
     unmountRef.current = false;
     let id;
     const fetchData = async (url) => {
@@ -30,7 +30,7 @@ export const useFetch = (url) => {
     fetchData(url);
 
     return () => {
-      console.log("unmounting ...");
+      // console.log("unmounting ...");
       unmountRef.current = true;
       clearTimeout(id);
     };

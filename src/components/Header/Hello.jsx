@@ -1,11 +1,23 @@
-import React, { useRef, useState, memo, useMemo, useCallback } from "react";
+import React, { useState, memo, useMemo, useCallback, useEffect } from "react";
 import { useFetch } from "../../hooks/useFetch";
 import { useForm } from "../../hooks/useForm";
 import { Child } from "./Child";
 
-let c = 0;
-export const Hello = memo(({ textBoxRef }) => {
-  const [count, setCount] = useState(0);
+const MemoChild = memo(Child);
+// let c = 0;
+export const Hello = ({ textBoxRef }) => {
+  useEffect(() => {
+    console.log("Hello mounted");
+    return () => {
+      console.log("Hello Unmounted");
+    };
+  }, []);
+
+  useEffect(() => {
+    console.log("Hello render");
+  });
+
+  // const [count, setCount] = useState(0);
   const [resource, setResource] = useState("comments");
   const [values, handleChange] = useForm({ name: "" });
 
@@ -20,9 +32,9 @@ export const Hello = memo(({ textBoxRef }) => {
     // "photos",
   ];
 
-  const refCount = useRef(0);
+  // const refCount = useRef(0);
   // const counterRef = useRef(0);
-  console.log("Hello renders:", ++refCount.current);
+  // console.log("Hello renders:", ++refCount.current);
 
   const handleClick = () => {
     console.log("handle clicked called");
@@ -39,18 +51,15 @@ export const Hello = memo(({ textBoxRef }) => {
     let longestWord = "";
     data.forEach((entity) =>
       entity.body.split(/\s+/).forEach((word) => {
-        // counterRef.current++;
-        c++;
+        // c++;
         if (word.length > longestWord.length) {
           longestWord = word;
         }
       })
     );
 
-    // console.log("computeLongestWord counter", counterRef.current);
-    // counterRef.current = 0;
-    console.log("computeLongestWord counter", c);
-    c = 0;
+    // console.log("computeLongestWord counter", c);
+    // c = 0;
     return longestWord;
   }, []);
 
@@ -59,23 +68,30 @@ export const Hello = memo(({ textBoxRef }) => {
     computeLongestWord,
   ]);
   const sum = (a, b) => {
-    console.log("computing sum....");
+    // console.log("computing sum....");
     return a + b;
   };
   const memoize = React.useMemo(() => sum(5, 6), []);
-  // const res = sum(2, 3);
-  // const res = memoize(3, 4);
-  // console.log(res);
 
-  // const longest = React.useCallback((data) => computeLongestWord(data), [data]);
-  // const MemoChild = React.useMemo(() => <Child />, []);
-  const increment = React.useCallback((v) => {
-    setCount((c) => c + v);
+  // const Papa = React.useMemo(() => Increment, []);
+  // console.log(increment(9));
+  // const arr = React.useCallback((first = 999) => [first, 1, 2, 3, 4], []);
+
+  // const Papa = React.useMemo(() => <Child />);
+  const increment = (num) => {
+    console.log(num);
+  };
+  const memoArr = React.useMemo(() => {
+    const arr = [1, 2, 3, 4];
+    return arr;
   }, []);
   return (
     <>
-      <p>COUNT: {count}</p>
-      <h3>{memoize}</h3>
+      {/* {Papa} */}
+      <MemoChild num={memoArr} increment={increment} />
+      {/* <Papa lost="lost" /> */}
+      {/* <p>COUNT: {count}</p> */}
+      <h3>memoize: {memoize}</h3>
       <div className="rotor"></div>
       <input
         type="text"
@@ -102,4 +118,4 @@ export const Hello = memo(({ textBoxRef }) => {
       )}
     </>
   );
-});
+};

@@ -418,6 +418,80 @@ a {
   }
 }
 
+.unsplash {
+  aspect-ratio: 1;
+  color: blueviolet;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* line-height: 50px; */
+  /* text-align: center; */
+  /* width: 100%; */
+  margin: 30px auto;
+  height: 50px;
+  background-color: white;
+  border-radius: 50%;
+  /* background: url('/assets/img/missing-unsplash.jpg'); */
+  position: relative;
+}
+.unsplash::after,
+.unsplash::before {
+  content: "";
+  position: absolute;
+  top: -20%;
+  bottom: -20%;
+  right: -20%;
+  left: -20%;
+  border: 1px solid white;
+  border-radius: inherit;
+  animation: pulse 1.5s linear infinite;
+  opacity: 0;
+  backface-visibility: hidden;
+}
+
+.unsplash::after {
+  animation-delay: 0.5s;
+}
+
+.child-comp {
+  text-transform: uppercase;
+  font-size: 3rem;
+  -webkit-text-fill-color: rgba(0, 0, 255, 0.281);
+  -webkit-text-stroke-width: 0.5px;
+  color: red;
+  /* background: url(/assets/img/missing-unsplash.jpg); */
+}
+.child-height {
+  aspect-ratio: 2;
+  border: 1px solid pink;
+  width: 429px;
+  /* background-position: -429px 0; */
+  /* background-repeat: no-repeat; */
+  animation: motion 5s linear infinite;
+  /* width: 200px; */
+  /* overflow: hidden; */
+}
+@keyframes motion {
+  from {
+    background-position: -429px;
+  }
+  to {
+    background-position: 0;
+  }
+}
+@keyframes pulse {
+  0% {
+    transform: scale(0.5);
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1.2);
+    opacity: 0;
+  }
+}
 @media screen and (max-width: 564px) {
   .movies--scroll.movies {
     gap: 2rem 1.5rem;

@@ -1,12 +1,20 @@
 import React, { useState, useEffect, useCallback, useRef } from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import { Child } from "./components/Header/Child";
 import { Header } from "./components/Header/Header";
 import { Hello } from "./components/Header/Hello";
 import { MovieList } from "./components/MovieList";
 import { Something } from "./components/Something";
+import { ColorProvider } from "./hooks/ColorContext";
 import { SingleMovie } from "./pages/SingleMovie";
 import { MOST_POPULAR, SEARCH_MOVIE } from "./utils/constants";
+
+const MemoMovieList = React.memo(MovieList, () => true);
+const MemoColorProvider = React.memo(ColorProvider, (prev, next) => {
+  // console.log(prev);
+  // console.log(next);
+  // console.log(JSON.stringify(prev, null, 1) === JSON.stringify(next, null, 1));
+  return true;
+});
 
 export const App = () => {
   const boxRef = useRef();
@@ -36,14 +44,24 @@ export const App = () => {
       console.log(error, "error");
     }
   };
+  useEffect(() => {
+    console.log("App mounted");
+    return () => {
+      console.log("App Unmounted");
+    };
+  }, []);
 
   useEffect(() => {
-    console.log("useEffect 1");
+    console.log("App render");
+  });
+
+  useEffect(() => {
+    // console.log("useEffect 1");
     fetchData(MOST_POPULAR);
   }, []);
 
   useEffect(() => {
-    console.log("useEffect 2");
+    // console.log("useEffect 2");
     localStorage.setItem("fav-movies", JSON.stringify(favourites));
   }, [favourites]);
 
@@ -73,57 +91,60 @@ export const App = () => {
     setmatchedResult([json.results.length, movieName, true]);
     setMovieName("");
   };
-  const MemoRoute = React.memo(Route);
+
   return (
-    <Router>
-      <Header
-        boxRef={boxRef}
-        inputState={{ setMovieName, movieName }}
-        handleSubmit={handleSubmit}
-      />
-      <button onClick={() => setVisible(!visible)}>
-        Toggle Hello Component
-      </button>
-      {visible && <Hello textBoxRef={boxRef} />}
-      {/* <Something /> */}
-      <Switch>
-        <MemoRoute exact path="/xyz" component={Child} />
-        <Route
-          exact
-          path="/"
-          component={() => (
-            <>
-              <MovieList
-                listType="Favourite"
-                movies={favourites}
-                handleFavourite={handleFavourite}
-              />
-              <MovieList
-                matchedResult={matchedResult}
-                listType="Featured"
-                movies={movies}
-                handleFavourite={handleFavourite}
-              />
-            </>
-          )}
+    <MemoColorProvider>
+      <Router>
+        <Header
+          boxRef={boxRef}
+          inputState={{ setMovieName, movieName }}
+          handleSubmit={handleSubmit}
         />
-        <Route
-          path="/:movieId"
-          exact
-          component={() => <SingleMovie handleFavourite={handleFavourite} />}
-        />
-        <Route path="/xyz/:somethiing" component={Something} />
-        <Route
-          component={() => {
-            return (
-              <div>
-                <h3>Not found</h3>
-                <button className="btn show-all">Goto Home</button>
-              </div>
-            );
-          }}
-        />
-      </Switch>
-    </Router>
+
+        <button onClick={() => setVisible(!visible)}>
+          Toggle Hello Component
+        </button>
+        {visible && <Hello textBoxRef={boxRef} />}
+
+        <Switch>
+          {/* <MemoRoute exact path="/xyz" component={Child} /> */}
+          <Route
+            exact
+            path="/"
+            render={() => (
+              <>
+                <MemoMovieList
+                  listType="Favourite"
+                  movies={favourites}
+                  handleFavourite={handleFavourite}
+                />
+                <MemoMovieList
+                  matchedResult={matchedResult}
+                  listType="Featured"
+                  movies={movies}
+                  handleFavourite={handleFavourite}
+                />
+              </>
+            )}
+          />
+          <Route
+            path="/:movieId"
+            exact
+            component={() => <SingleMovie handleFavourite={handleFavourite} />}
+          />
+          <Route path="/xyz/:somethiing" component={Something} />
+          <Route
+            component={() => {
+              return (
+                <div>
+                  <h3>Not found</h3>
+                  <button className="btn show-all">Goto Home</button>
+                </div>
+              );
+            }}
+          />
+        </Switch>
+      </Router>
+    </MemoColorProvider>
   );
 };
