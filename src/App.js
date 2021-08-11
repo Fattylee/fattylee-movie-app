@@ -5,6 +5,8 @@ import { MovieList } from "./components/MovieList";
 import { SingleMovie } from "./pages/SingleMovie";
 import { MOST_POPULAR, SEARCH_MOVIE } from "./utils/constants";
 
+// const MemoSingleMovie = React.memo(SingleMovie, () => true);
+
 export const App = () => {
   const [movies, setMovies] = useState([]);
 
@@ -92,7 +94,9 @@ export const App = () => {
         />
         <Route
           path="/:movieId"
-          component={() => <SingleMovie handleFavourite={handleFavourite} />}
+          render={(props) => (
+            <SingleMovie handleFavourite={handleFavourite} {...props} />
+          )}
         />
       </Switch>
     </Router>

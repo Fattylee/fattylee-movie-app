@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
+// import { ColorContext } from "../hooks/ColorContext";
 import { Movie } from "./Movie";
 
 export const MovieList = ({
@@ -7,6 +8,26 @@ export const MovieList = ({
   handleFavourite,
   matchedResult,
 }) => {
+  const rerender = useRef(false);
+
+  useEffect(() => {
+    if (rerender.current) {
+      console.log("MovieList rerender");
+      return () => {
+        console.log("MovieList Unmount rerender");
+      };
+    }
+  });
+
+  useEffect(() => {
+    rerender.current = true;
+
+    console.log("MovieList mounted");
+    return () => {
+      console.log("MovieList Unmounted");
+    };
+  }, []);
+
   let titleContent = "";
   if (!matchedResult) {
     titleContent = `${listType} movies`;
@@ -15,9 +36,9 @@ export const MovieList = ({
       ? ` Found ${matchedResult[0]} Matches for: ${matchedResult[1]}`
       : `${listType} movies`;
   }
+
   return (
     <>
-      <h3 className="movies-title">{titleContent}</h3>
       <div
         className={
           listType === "Favourite" ? "movies movies--scroll" : "movies"

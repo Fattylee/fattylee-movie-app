@@ -1,12 +1,43 @@
 import React, { useEffect, useState } from "react";
 import { Movie } from "../components/Movie";
 import { BACKDROP_PATH_SIZE } from "../utils/constants";
+import styled, { css } from "styled-components/macro";
+import { Jumbotron } from "../components/jumbotron";
+import jumboData from "../fixtures/jumbo.json";
+import { GlobaStyles } from "../global-style";
 
-export const SingleMovie = ({ listType, handleFavourite }) => {
-  const url = `https://api.themoviedb.org/3/movie${window.location.pathname}?api_key=${process.env.REACT_APP_MOVIE_API}`;
+const Body = styled.div`
+  background: red;
+  font-size: 2rem;
+  box-shadow: ${({ primary }) =>
+    primary ? "0 0 10px blue" : "3px 4px 10px cyan"};
+  transition: all 0.5s;
+  :hover {
+    background: pink;
+    color: ${({ color }) => color};
+  }
+  ${({ primary }) =>
+    primary &&
+    css`
+      padding: 10px 20px;
+      border-radius: 15px;
+    `}
+  @media(max-width:300px) {
+    background: purple;
+  }
+`;
+
+export const SingleMovie = (props) => {
+  const { listType, handleFavourite } = props;
+  const [primary, setPrimary] = useState(false);
+  console.log(props);
 
   const [movie, setMovie] = useState({});
   useEffect(() => {
+    console.log("mounting....");
+
+    const url = `https://api.themoviedb.org/3/movie${window.location.pathname}?api_key=${process.env.REACT_APP_MOVIE_API}`;
+
     const fetchData = async (url) => {
       try {
         const res = await fetch(url);
@@ -21,9 +52,10 @@ export const SingleMovie = ({ listType, handleFavourite }) => {
     };
     fetchData(url);
     return () => {
+      console.log("UNmounting....");
       setMovie({});
     };
-  }, [url]);
+  }, []);
 
   const {
     title,
@@ -48,8 +80,23 @@ export const SingleMovie = ({ listType, handleFavourite }) => {
     }
     return `${(duration / 60) | 0}h ${duration % 60}m`;
   };
+
   return (
     <>
+      <GlobaStyles />
+      <Jumbotron.Container>
+        {jumboData.map((item) => (
+          <Jumbotron key={item.id} direction={item.direction}>
+            <Jumbotron.Pane>
+              <Jumbotron.Title>{item.title}</Jumbotron.Title>
+              <Jumbotron.SubTitle>{item.subTitle}</Jumbotron.SubTitle>
+            </Jumbotron.Pane>
+            <Jumbotron.Pane>
+              <Jumbotron.Image src={item.image} alt={item.alt} />
+            </Jumbotron.Pane>
+          </Jumbotron>
+        ))}
+      </Jumbotron.Container>
       <div className="single-movie">
         <h3 className="single-movie-title">Movie details</h3>
         <div

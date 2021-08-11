@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 export const SearchMovie = ({ inputState, handleSubmit }) => {
   const { setMovieName, movieName } = inputState;
@@ -10,6 +10,11 @@ export const SearchMovie = ({ inputState, handleSubmit }) => {
       handleSubmit(movieName);
     }
   };
+  useEffect(() => {
+    console.log(window.location);
+    // window.location.assign("/");
+    return () => {};
+  }, []);
 
   return (
     <form className="search-form" onSubmit={handleOnSubmit}>
