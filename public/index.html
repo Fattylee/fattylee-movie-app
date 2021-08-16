@@ -40,9 +40,28 @@
     -->
     <title>Movie React App || Home</title>
     <!-- <script src="/js/lazysizes.min.js" async=""></script> -->
+    <style>
+      .gap {
+        background-color: aqua;
+        height: 100vh;
+        border: 2px solid yellow;
+      }
+      .box {
+        --box: 200px;
+        height: var(--box);
+        width: var(--box);
+        margin: 50px auto;
+        background-color: red;
+        transition: 2s background;
+      }
+    </style>
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
+    <h1>testing all the way</h1>
+    <div class="gap"></div>
+    <div class="box">box</div>
+    <div class="gap"></div>
     <div id="root"></div>
     <!--
       This HTML file is a template.
@@ -54,5 +73,25 @@
       To begin the development, run `npm start` or `yarn start`.
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
+    <script>
+      const box = document.querySelector(".box");
+
+      function callback(entries) {
+        const [entry] = entries;
+        // entries.forEach((entry) => {});
+        if (entry.isIntersecting) {
+          console.log("yeah..2.");
+          box.style.background = "green";
+        } else {
+          box.style.background = "red";
+        }
+      }
+      option = {
+        rootMargin: "0px 0px -50% 0px",
+        threshold: [0.0, 0.5],
+      };
+      const observer = new IntersectionObserver(callback, option);
+      observer.observe(box);
+    </script>
   </body>
 </html>
